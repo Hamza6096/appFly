@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% set promo %}
+    <img src="{{ asset('/reduc.png')}}" style="width: 30px;" alt="" >
+{% endset %}
+
 {% block title %}Flight index{% endblock %}
 
 {% block body %}
@@ -17,7 +21,7 @@
                 </button>
             </div>
             <div> <button type="button" class="btn btn-success m-2"><a class="text-decoration-none text-white"
-                                                                       href="{{ path('app_flight_new') }}">Se connecter</a>
+                                                                       href="{{ path('app_login') }}">Se connecter</a>
                 </button></div>
 
         </div>
@@ -45,7 +49,7 @@
                     <td>{{ flight.departureDatetime ? flight.departureDatetime|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ flight.arrivalDateTime ? flight.arrivalDateTime|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ flight.price }} €</td>
-                    <td>{{ flight.reduction ? 'Oui' : 'Non' }}</td>
+                    <td>{{ flight.reduction ? promo : '' }}</td>
                     <td>{{ flight.seatMax }}</td>
                     <td>
                         <a href="{{ path('app_flight_show', {'id': flight.id}) }}"> <span

@@ -12,9 +12,12 @@ class BaseController extends AbstractController
     #[Route('/', name: 'app_base')]
     public function index(FlightRepository $flightRepo): Response
     {
+        $flightfilter = $flightRepo->findBy([
+            'arrivalCity' => '2'
+        ]);
         return $this->render('base/home.html.twig', [
-            'flights' => $flightRepo->findAll(),
-
+            //'flights' => $flightRepo->findAll(),
+            'flights' => $flightfilter,
         ]);
     }
 }
