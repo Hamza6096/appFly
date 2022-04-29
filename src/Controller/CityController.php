@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/admin/city')]
 class CityController extends AbstractController
@@ -22,13 +23,26 @@ class CityController extends AbstractController
     }
 
     #[Route('/new', name: 'app_city_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CityRepository $cityRepository): Response
+    public function new(Request $request, CityRepository $cityRepository, SluggerInterface $slugger): Response
     {
         $city = new City();
         $form = $this->createForm(CityType::class, $city);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $newFilename = $city->getName();
+            $directory = './upload/';
+
+            $file = $form['cityimg']->getData();
+            if($file){
+                $extension = $file->guessExtension();
+
+                $newFilename .= '.' . $extension;
+
+                $file->move($directory, $newFilename);
+                $city->setCityImg($directory . $newFilename);
+            }
+
             $cityRepository->add($city);
             return $this->redirectToRoute('app_base', [], Response::HTTP_SEE_OTHER);
         }
@@ -48,7 +62,7 @@ class CityController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_city_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, City $city, CityRepository $cityRepository): Response
+    public function edit(Request $request, City $city, CityRepository $cityRepository, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(CityType::class, $city);
         $form->handleRequest($request);

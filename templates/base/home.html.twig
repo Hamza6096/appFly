@@ -11,16 +11,16 @@
         <h1>Liste des vols</h1>
         <div class="d-flex">
             <div>
-                <button type="button" class="btn btn-success m-2"><a class="text-decoration-none text-white"
+                <button class="btn btn-success m-2"><a class="text-decoration-none text-white"
                                                                      href="{{ path('app_flight_new') }}">Ajouter un
                         vol</a>
                 </button>
-                <button type="button" class="btn btn-success m-2"><a class="text-decoration-none text-white"
+                <button class="btn btn-success m-2"><a class="text-decoration-none text-white"
                                                                      href="{{ path('app_city_new') }}">Ajouter un
                         ville</a>
                 </button>
             </div>
-            <div> <button type="button" class="btn btn-success m-2"><a class="text-decoration-none text-white"
+            <div> <button class="btn btn-success m-2"><a class="text-decoration-none text-white"
                                                                        href="{{ path('app_login') }}">Se connecter</a>
                 </button></div>
 
@@ -38,6 +38,7 @@
                 <th>Prix</th>
                 <th>Tarif réduit</th>
                 <th>Capacité maximale en passagers</th>
+                <th>Image de la ville</th>
             </tr>
             </thead>
             <tbody>
@@ -51,6 +52,8 @@
                     <td>{{ flight.price }} €</td>
                     <td>{{ flight.reduction ? promo : '' }}</td>
                     <td>{{ flight.seatMax }}</td>
+                    <td><img src="{{ asset("upload/"~flight.arrivalCity~".jpg") }}" style="object-fit: cover"
+                             width="100px" height="100px" class="card-img-top" alt="{{ flight.arrivalCity }}"></td>
                     <td>
                         <a href="{{ path('app_flight_show', {'id': flight.id}) }}"> <span
                                     class="fs-4 m-1">Voir</span></a>

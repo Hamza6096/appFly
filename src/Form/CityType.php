@@ -16,7 +16,7 @@ class CityType extends AbstractType
         $builder
             ->add('name')
             ->add('cityimg', FileType::class, [
-                'label' => 'Image de la ville (PDF file)',
+                'label' => 'Image de la ville',
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
